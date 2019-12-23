@@ -1,9 +1,7 @@
-﻿# CMakeList.txt: plik projektu CMake najwyższego poziomu, wykonaj konfigurację globalną
-# i uwzględnij podprojekty w tym miejscu.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
+set (CMAKE_CXX_STANDARD 11)
 
 project ("Battleship")
 
-# Uwzględnij podprojekty.
+add_subdirectory ("Sockets")
 add_subdirectory ("BattleshipServer")

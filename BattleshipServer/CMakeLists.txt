@@ -1,9 +1,9 @@
-﻿# CMakeList.txt: projekt CMake dla elementu BattleshipServer, dołącz źródło i zdefiniuj
-# tutaj logikę specyficzną dla projektu.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
+set (CMAKE_CXX_STANDARD 11)
 
-# Dodaj źródło do pliku wykonywalnego tego projektu.
-add_executable (BattleshipServer "BattleshipServer.cpp" "BattleshipServer.h")
+project("BattleshipServer")
 
-# TODO: Dodaj testy i zainstaluj elementy docelowe w razie potrzeby.
+add_executable (BattleshipServer "BattleshipServer.cpp")
+
+target_link_libraries(BattleshipServer PUBLIC sockets)
+target_include_directories(BattleshipServer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
