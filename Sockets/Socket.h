@@ -10,7 +10,7 @@ namespace Sockets {
 		virtual Socket* accept() = 0;
 		virtual void connect(const char* ipAddress, int port) = 0;
 		virtual int read(char* buffer, int length = 1) = 0;
-		virtual void write(char* buffer, int length = 1) = 0;
+		virtual int write(const char* buffer, int length = 1) = 0;
 		virtual void close() = 0;
 	};
 }

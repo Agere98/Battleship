@@ -70,14 +70,17 @@ namespace Sockets {
 		return size;
 	}
 
-	void SocketBSD::write(char* buffer, int length) {
+	int SocketBSD::write(const char* buffer, int length) {
 		int size = ::write(socket, buffer, length);
 		if (size == -1) {
 			perror("Read error");
 		}
+		return size;
 	}
 
 	void SocketBSD::close() {
-		::close(socket);
+		if (::close(socket) == -1) {
+			perror("Close error");
+		}
 	}
 }

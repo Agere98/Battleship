@@ -1,29 +1,25 @@
 #pragma once
 #include "Socket.h"
-#include <arpa/inet.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <unistd.h>
 #include <string.h>
-#include <stdio.h>
+#include <string>
+#include <algorithm>
 
 namespace Sockets {
 
-	class SocketBSD : public Socket {
+	class StringSocket : public Socket {
 
 	private:
-		struct sockaddr_in getAddress(const char* ipAddress, int port);
-
-	protected:
-		const int backlog = 64;
-		int socket;
-
-		SocketBSD(int socket);
+		Socket* internalSocket;
+		char* buffer;
+		int bufferSize;
+		int bufferPos;
+		int bufferEnd;
 
 	public:
-		SocketBSD();
-		SocketBSD(const char* ipAddress, int port);
-
+		StringSocket(Socket* socket, int bufferSize = 1024);
+		~StringSocket();
+		virtual std::string readLine(const char* lineDelimeter = "\n");
+		virtual void writeLine(std::string line, const char* lineDelimeter = "\n");
 		virtual void bind(const char* ipAddress, int port) override;
 		virtual void listen() override;
 		virtual Socket* accept() override;
