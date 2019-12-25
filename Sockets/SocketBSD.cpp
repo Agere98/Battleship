@@ -5,7 +5,7 @@ namespace Sockets {
 	SocketBSD::SocketBSD() {
 		socket = ::socket(AF_INET, SOCK_STREAM, 0);
 		if (socket == -1) {
-			perror("Socket error");
+			throw std::runtime_error(strerror(errno));
 		}
 	}
 
@@ -25,8 +25,7 @@ namespace Sockets {
 			socketAddress.sin_addr.s_addr = htonl(INADDR_ANY);
 		}
 		else if (inet_pton(AF_INET, ipAddress, &socketAddress.sin_addr) <= 0) {
-			printf("Address error: Invalid address\n");
-			return socketAddress;
+			throw std::invalid_argument("Invalid address");
 		}
 		socketAddress.sin_family = AF_INET;
 		socketAddress.sin_port = htons(port);
@@ -36,21 +35,20 @@ namespace Sockets {
 	void SocketBSD::bind(const char* ipAddress, int port) {
 		struct sockaddr_in socketAddress = getAddress(ipAddress, port);
 		if (::bind(socket, (struct sockaddr*) & socketAddress, sizeof(socketAddress)) == -1) {
-			perror("Bind error");
+			throw std::runtime_error(strerror(errno));
 		}
 	}
 
 	void SocketBSD::listen() {
 		if (::listen(socket, backlog) == -1) {
-			perror("Listen error");
+			throw std::runtime_error(strerror(errno));
 		}
 	}
 
 	Socket* SocketBSD::accept() {
 		int clientSocket = ::accept(socket, NULL, NULL);
 		if (clientSocket == -1) {
-			perror("Accept error");
-			return nullptr;
+			throw std::runtime_error(strerror(errno));
 		}
 		return new SocketBSD(clientSocket);
 	}
@@ -58,14 +56,14 @@ namespace Sockets {
 	void SocketBSD::connect(const char* ipAddress, int port) {
 		struct sockaddr_in socketAddress = getAddress(ipAddress, port);
 		if (::connect(socket, (struct sockaddr*) & socketAddress, sizeof(socketAddress)) == -1) {
-			perror("Connect error");
+			throw std::runtime_error(strerror(errno));
 		}
 	}
 
 	int SocketBSD::read(char* buffer, int length) {
 		int size = ::read(socket, buffer, length);
 		if (size == -1) {
-			perror("Read error");
+			throw std::runtime_error(strerror(errno));
 		}
 		return size;
 	}
@@ -73,14 +71,14 @@ namespace Sockets {
 	int SocketBSD::write(const char* buffer, int length) {
 		int size = ::write(socket, buffer, length);
 		if (size == -1) {
-			perror("Read error");
+			throw std::runtime_error(strerror(errno));
 		}
 		return size;
 	}
 
 	void SocketBSD::close() {
 		if (::close(socket) == -1) {
-			perror("Close error");
+			throw std::runtime_error(strerror(errno));
 		}
 	}
 }

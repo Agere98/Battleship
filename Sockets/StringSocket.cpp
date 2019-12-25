@@ -11,12 +11,15 @@ namespace Sockets {
 
 	StringSocket::~StringSocket() {
 		delete(buffer);
+		delete(internalSocket);
 	}
 
 	std::string StringSocket::readLine(const char* lineDelimeter) {
 		std::string line = "";
 		int l = 0;
 		while (true) {
+			// Read from the socket and append the output string
+			// until the line delimeter is found
 			int pos = line.find(lineDelimeter);
 			if (pos == std::string::npos) {
 				l = read(buffer, bufferSize);
@@ -24,6 +27,10 @@ namespace Sockets {
 				line.append(buffer, l);
 			}
 			else {
+				// When the line delimeter is found, erase all characters
+				// that came after it from the output string
+				// and store them in the internal buffer
+				// for the next read operation
 				bufferEnd = l;
 				int endOfLine = pos + strlen(lineDelimeter);
 				int charsLeft = line.length() - endOfLine;
@@ -40,7 +47,7 @@ namespace Sockets {
 		int charsLeft = line.length();
 		while (charsLeft > 0) {
 			int l = write(buffer, charsLeft);
-			if (l <= 0) {
+			if (l == 0) {
 				return;
 			}
 			charsLeft -= l;
@@ -65,14 +72,17 @@ namespace Sockets {
 	}
 
 	int StringSocket::read(char* buffer, int length) {
-		if (bufferPos == bufferEnd) {
-			return internalSocket->read(buffer, length);
-		}
-		else {
+		// If there are unprocesed characters in the internal buffer
+		// (after a call to readLine), read them first
+		if (bufferPos != bufferEnd) {
 			int size = std::min(bufferEnd - bufferPos, length);
 			memcpy(buffer, this->buffer + bufferPos, size);
 			bufferPos += size;
 			return size;
+		}
+		// Else, delegate the call to the internal socket as usual
+		else {
+			return internalSocket->read(buffer, length);
 		}
 	}
 
