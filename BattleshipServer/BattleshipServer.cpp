@@ -1,21 +1,16 @@
 ﻿#include <BattleshipServer.h>
 
+#define SERVER_PORT 2680
+
 using namespace Sockets;
+using namespace BattleshipServer;
 
 int main() {
-	Socket* server = new SocketBSD("", 2345);
+	ConnectionManager connectionManager;
+	SocketBSD* server = new SocketBSD("", SERVER_PORT);
 	server->listen();
-	std::cout << "Listening" << std::endl;
 	while (true) {
-		StringSocket* client = new StringSocket(server->accept());
-		std::cout << "Connected" << std::endl;
-		while (true) {
-			std::string s = client->readLine();
-			if (s.compare("") == 0)break;
-			std::cout << s << std::endl;
-			client->writeLine(s);
-		}
-		client->close();
+		connectionManager.handleConnection(server->accept());
 	}
 	server->close();
 }

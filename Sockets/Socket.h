@@ -22,5 +22,7 @@ namespace Sockets {
 		virtual int write(const char* buffer, int length = 1) = 0;
 		// Closes this socket
 		virtual void close() = 0;
+
+		virtual ~Socket() {}
 	};
 }

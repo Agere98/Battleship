@@ -22,7 +22,7 @@ namespace Sockets {
 		// Creates a StringSocket and stores the socket object passed as argument for functionality extension
 		StringSocket(Socket* socket, int bufferSize = 1024);
 		// Destroys this object and its internal socket
-		~StringSocket();
+		virtual ~StringSocket() override;
 		// Reads a line from this socket and returns it as a string
 		virtual std::string readLine(const char* lineDelimeter = "\n");
 		// Writes a line to this socket, followed by a line delimeter
