@@ -4,7 +4,9 @@ set (CMAKE_CXX_STANDARD 11)
 project("BattleshipServer")
 
 add_executable (BattleshipServer "BattleshipServer.cpp"
-	"ConnectionManager.cpp")
+	"ConnectionManager.cpp"
+	"Player.cpp"
+	"PlayerCommands.cpp")
 
 target_link_libraries(BattleshipServer PUBLIC sockets)
 target_include_directories(BattleshipServer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

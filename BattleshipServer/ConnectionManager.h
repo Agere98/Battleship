@@ -1,9 +1,5 @@
 #pragma once
 #include <Socket.h>
-#include <StringSocket.h>
-#include <pthread.h>
-#include <string>
-#include <iostream>
 
 namespace BattleshipServer {
 
