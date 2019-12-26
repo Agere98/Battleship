@@ -1,4 +1,6 @@
 #include "StringSocket.h"
+#include <algorithm>
+#include <string.h>
 
 namespace Sockets {
 

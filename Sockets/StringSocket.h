@@ -1,8 +1,6 @@
 #pragma once
 #include "Socket.h"
-#include <string.h>
 #include <string>
-#include <algorithm>
 
 namespace Sockets {
 
