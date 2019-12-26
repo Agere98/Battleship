@@ -1,10 +1,14 @@
 #include "StringSocket.h"
 #include <algorithm>
 #include <string.h>
+#include <stdexcept>
 
 namespace Sockets {
 
 	StringSocket::StringSocket(Socket* socket, int bufferSize) {
+		if (socket == nullptr) {
+			throw std::invalid_argument("Socket is null");
+		}
 		internalSocket = socket;
 		buffer = new char[bufferSize];
 		this->bufferSize = bufferSize;
