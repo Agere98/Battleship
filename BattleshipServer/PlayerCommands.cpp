@@ -9,6 +9,15 @@ namespace BattleshipServer {
 	}
 
 	void PlayerCommands::parse(std::string command, Player* target) {
-		std::cout << command << std::endl;
+		if (command == "match") {
+			matchmaker.registerPlayer(*target);
+			matchmaker.createMatches();
+		}
+		else if (target->getCurrentGame() != nullptr) {
+			target->getOpponent().sendMessage(command);
+		}
+		else {
+			std::cout << command << std::endl;
+		}
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <CommandParser.h>
+#include <Matchmaker.h>
 
 namespace BattleshipServer {
 
@@ -9,6 +10,8 @@ namespace BattleshipServer {
 	class PlayerCommands final : public CommandParser {
 
 	private:
+		Matchmaker matchmaker;
+
 		PlayerCommands() = default;
 		PlayerCommands(const PlayerCommands&) = delete;
 		~PlayerCommands() = default;

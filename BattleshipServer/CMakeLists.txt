@@ -6,7 +6,9 @@ project("BattleshipServer")
 add_executable (BattleshipServer "BattleshipServer.cpp"
 	"ConnectionManager.cpp"
 	"Player.cpp"
-	"PlayerCommands.cpp")
+	"PlayerCommands.cpp"
+	"Game.cpp"
+	"Matchmaker.cpp")
 
 target_link_libraries(BattleshipServer PUBLIC sockets)
 target_include_directories(BattleshipServer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
