@@ -1,6 +1,5 @@
 #include "Matchmaker.h"
 #include <Game.h>
-#include <pthread.h>
 
 namespace BattleshipServer {
 
@@ -19,10 +18,13 @@ namespace BattleshipServer {
 	}
 
 	void Matchmaker::registerPlayer(Player& player) {
+		pthread_mutex_lock(&queueMutex);
 		playerQueue.push_back(&player);
+		pthread_mutex_unlock(&queueMutex);
 	}
 
 	void Matchmaker::createMatches() {
+		pthread_mutex_lock(&queueMutex);
 		while (playerQueue.size() >= 2) {
 			Player* player1 = playerQueue.front();
 			playerQueue.pop_front();
@@ -30,5 +32,6 @@ namespace BattleshipServer {
 			playerQueue.pop_front();
 			match(*player1, *player2);
 		}
+		pthread_mutex_unlock(&queueMutex);
 	}
 }

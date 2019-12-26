@@ -1,6 +1,7 @@
 #pragma once
 #include <Player.h>
 #include <list>
+#include <pthread.h>
 
 namespace BattleshipServer {
 
@@ -11,6 +12,7 @@ namespace BattleshipServer {
 
 	private:
 		std::list<Player*> playerQueue;
+		pthread_mutex_t queueMutex = PTHREAD_MUTEX_INITIALIZER;
 
 		void match(Player& player1, Player& player2);
 		static void* gameBehavior(void* gameInstance);
