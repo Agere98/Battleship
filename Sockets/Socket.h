@@ -23,6 +23,6 @@ namespace Sockets {
 		// Closes this socket
 		virtual void close() = 0;
 
-		virtual ~Socket() {}
+		virtual ~Socket() = default;
 	};
 }
