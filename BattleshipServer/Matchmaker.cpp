@@ -1,5 +1,6 @@
 #include "Matchmaker.h"
 #include <Game.h>
+#include <stdexcept>
 
 namespace BattleshipServer {
 
@@ -17,9 +18,21 @@ namespace BattleshipServer {
 		pthread_exit(NULL);
 	}
 
-	void Matchmaker::registerPlayer(Player& player) {
+	void Matchmaker::registerPlayer(Player* player) {
+		if (player == nullptr) {
+			throw std::invalid_argument("Player is null");
+		}
 		pthread_mutex_lock(&queueMutex);
-		playerQueue.push_back(&player);
+		playerQueue.push_back(player);
+		pthread_mutex_unlock(&queueMutex);
+	}
+
+	void Matchmaker::unregisterPlayer(Player* player) {
+		if (player == nullptr) {
+			return;
+		}
+		pthread_mutex_lock(&queueMutex);
+		playerQueue.remove(player);
 		pthread_mutex_unlock(&queueMutex);
 	}
 

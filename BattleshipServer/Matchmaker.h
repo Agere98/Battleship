@@ -18,8 +18,10 @@ namespace BattleshipServer {
 		static void* gameBehavior(void* gameInstance);
 
 	public:
-		// Registers a player for matchmaking
-		void registerPlayer(Player& player);
+		// Adds a player to a queue for matchmaking
+		void registerPlayer(Player* player);
+		// Removes a registered player from matchmaking queue
+		void unregisterPlayer(Player* player);
 		// Processes registered players and assigns them to matches
 		virtual void createMatches();
 	};
