@@ -12,6 +12,26 @@ namespace BattleshipServer {
 		commandParser.parse(command, this);
 	}
 
+	bool Player::joinGame(Game* game) {
+		if (currentGame != nullptr) {
+			throw std::logic_error("Player is already in game");
+		}
+		gameIndex = game->addPlayer(this);
+		if (gameIndex >= 0) {
+			currentGame = game;
+			return true;
+		}
+		return false;
+	}
+
+	void Player::leaveGame() {
+		if (currentGame == nullptr) {
+			throw std::logic_error("Player is not in game");
+		}
+		currentGame->removePlayer(gameIndex);
+		currentGame = nullptr;
+	}
+
 	Game* Player::getCurrentGame() {
 		return currentGame;
 	}
@@ -20,16 +40,16 @@ namespace BattleshipServer {
 		if (currentGame == nullptr) {
 			throw std::logic_error("Player is not in game");
 		}
-		Player* player = currentGame->getPlayer(0);
-		if (player == this) {
-			return currentGame->getPlayer(1);
-		}
-		else {
-			return player;
-		}
+		return currentGame->getPlayer(1 - gameIndex);
 	}
 
 	void Player::sendMessage(std::string message) {
 		client.writeLine(message);
+	}
+
+	void Player::exit() {
+		if (currentGame != nullptr) {
+			leaveGame();
+		}
 	}
 }

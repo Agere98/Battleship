@@ -4,15 +4,23 @@
 
 namespace BattleshipServer {
 
-	Game::Game(Player* player1, Player* player2) {
-		players[0] = player1;
-		players[1] = player2;
-		player1->currentGame = this;
-		player2->currentGame = this;
+	int Game::addPlayer(Player* player) {
+		for (int i = 0; i < 2; i++) {
+			if (players[i] == nullptr) {
+				players[i] = player;
+				return i;
+			}
+		}
+		return -1;
 	}
 
-	void Game::start() {
-		while (true);
+	void Game::removePlayer(int index) {
+		if (index == 0 || index == 1) {
+			players[index] = nullptr;
+		}
+		else {
+			throw std::out_of_range("Index must be 0 or 1");
+		}
 	}
 
 	Player* Game::getPlayer(int index) {
@@ -22,5 +30,9 @@ namespace BattleshipServer {
 		else {
 			throw std::out_of_range("Index must be 0 or 1");
 		}
+	}
+
+	void Game::start() {
+		while (true);
 	}
 }

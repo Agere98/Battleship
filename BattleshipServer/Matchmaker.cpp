@@ -5,7 +5,9 @@
 namespace BattleshipServer {
 
 	void Matchmaker::match(Player* player1, Player* player2) {
-		Game* game = new Game(player1, player2);
+		Game* game = new Game();
+		player1->joinGame(game);
+		player2->joinGame(game);
 		pthread_t thread;
 		pthread_create(&thread, NULL, Matchmaker::gameBehavior, (void*)game);
 	}
