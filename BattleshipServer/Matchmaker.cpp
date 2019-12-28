@@ -25,7 +25,7 @@ namespace BattleshipServer {
 			throw std::invalid_argument("Player is null");
 		}
 		pthread_mutex_lock(&queueMutex);
-		playerQueue.push_back(player);
+		playerQueue.insert(player);
 		pthread_mutex_unlock(&queueMutex);
 	}
 
@@ -34,17 +34,17 @@ namespace BattleshipServer {
 			return;
 		}
 		pthread_mutex_lock(&queueMutex);
-		playerQueue.remove(player);
+		playerQueue.erase(player);
 		pthread_mutex_unlock(&queueMutex);
 	}
 
 	void Matchmaker::createMatches() {
 		pthread_mutex_lock(&queueMutex);
 		while (playerQueue.size() >= 2) {
-			Player* player1 = playerQueue.front();
-			playerQueue.pop_front();
-			Player* player2 = playerQueue.front();
-			playerQueue.pop_front();
+			Player* player1 = *playerQueue.begin();
+			playerQueue.erase(player1);
+			Player* player2 = *playerQueue.begin();
+			playerQueue.erase(player2);
 			match(player1, player2);
 		}
 		pthread_mutex_unlock(&queueMutex);

@@ -1,6 +1,6 @@
 #pragma once
 #include <Player.h>
-#include <list>
+#include <unordered_set>
 #include <pthread.h>
 
 namespace BattleshipServer {
@@ -11,7 +11,7 @@ namespace BattleshipServer {
 	class Matchmaker {
 
 	private:
-		std::list<Player*> playerQueue;
+		std::unordered_set<Player*> playerQueue;
 		pthread_mutex_t queueMutex = PTHREAD_MUTEX_INITIALIZER;
 
 		void match(Player* player1, Player* player2);
