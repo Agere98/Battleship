@@ -12,6 +12,7 @@ namespace BattleshipServer {
 			return;
 		}
 		matchmaker.registerPlayer(target);
+		target->sendMessage("matchmaking");
 		matchmaker.createMatches();
 	}
 
@@ -22,6 +23,7 @@ namespace BattleshipServer {
 		else {
 			matchmaker.unregisterPlayer(target);
 		}
+		target->sendMessage("left");
 	}
 
 	void PlayerCommands::ships(Player* target, std::string args) {
@@ -54,6 +56,7 @@ namespace BattleshipServer {
 			}
 		}
 		target->getCurrentGame()->setReady(target->getIndex());
+		target->sendMessage("ready");
 	}
 
 	void PlayerCommands::fire(Player* target, std::string args) {
@@ -73,7 +76,18 @@ namespace BattleshipServer {
 			invalidCommand(target);
 			return;
 		}
-		board->hit(x, y);
+		int ship = board->hit(x, y);
+		if (ship >= 0) {
+			if (board->getShipState(ship) == Board::ShipState::SUNK) {
+				target->sendMessage("sunk");
+			}
+			else {
+				target->sendMessage("hit");
+			}
+		}
+		else {
+			target->sendMessage("miss");
+		}
 		target->getCurrentGame()->endTurn();
 	}
 
@@ -103,13 +117,6 @@ namespace BattleshipServer {
 			fire(target, command.substr(5));
 			return;
 		}
-
-		/*if (target->getCurrentGame() != nullptr && target->getOpponent() != nullptr) {
-			target->getOpponent()->sendMessage(command);
-		}
-		else {
-			std::cout << command << std::endl;
-		}*/
 
 		invalidCommand(target);
 	}

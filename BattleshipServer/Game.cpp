@@ -84,12 +84,14 @@ namespace BattleshipServer {
 	void Game::start() {
 		for (int i = 0; i < 2; i++) {
 			boards[i] = new ClassicBoard();
+			getPlayer(i)->sendMessage("start");
 		}
 		pthread_mutex_lock(&turnMutex);
 		pthread_cond_wait(&playerTurn, &turnMutex);
 		while (true) {
 			for (int i = 0; i < 2; i++) {
 				turn = i;
+				getPlayer(i)->sendMessage("turn");
 				pthread_cond_wait(&playerTurn, &turnMutex);
 			}
 		}
