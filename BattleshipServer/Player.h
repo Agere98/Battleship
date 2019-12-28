@@ -25,7 +25,7 @@ namespace BattleshipServer {
 		// Gets the game instance that this player is participating in, returns null if player is not in game
 		Game* getCurrentGame();
 		// Gets the opponent player from this player's current game
-		Player& getOpponent();
+		Player* getOpponent();
 		// Sends a message string to this player
 		void sendMessage(std::string message);
 	};

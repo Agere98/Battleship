@@ -14,7 +14,7 @@ namespace BattleshipServer {
 			matchmaker.createMatches();
 		}
 		else if (target->getCurrentGame() != nullptr) {
-			target->getOpponent().sendMessage(command);
+			target->getOpponent()->sendMessage(command);
 		}
 		else {
 			std::cout << command << std::endl;

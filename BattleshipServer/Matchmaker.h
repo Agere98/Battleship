@@ -14,7 +14,7 @@ namespace BattleshipServer {
 		std::list<Player*> playerQueue;
 		pthread_mutex_t queueMutex = PTHREAD_MUTEX_INITIALIZER;
 
-		void match(Player& player1, Player& player2);
+		void match(Player* player1, Player* player2);
 		static void* gameBehavior(void* gameInstance);
 
 	public:

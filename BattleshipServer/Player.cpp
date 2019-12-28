@@ -16,12 +16,12 @@ namespace BattleshipServer {
 		return currentGame;
 	}
 
-	Player& Player::getOpponent() {
+	Player* Player::getOpponent() {
 		if (currentGame == nullptr) {
 			throw std::logic_error("Player is not in game");
 		}
-		Player& player = currentGame->getPlayer(0);
-		if (&player == this) {
+		Player* player = currentGame->getPlayer(0);
+		if (player == this) {
 			return currentGame->getPlayer(1);
 		}
 		else {

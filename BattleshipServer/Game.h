@@ -14,10 +14,10 @@ namespace BattleshipServer {
 
 	public:
 		// Creates a game between two players
-		Game(Player& player1, Player& player2);
+		Game(Player* player1, Player* player2);
 		// Starts a game
 		void start();
 		// Gets the player by index (0 or 1)
-		Player& getPlayer(int index);
+		Player* getPlayer(int index);
 	};
 }
