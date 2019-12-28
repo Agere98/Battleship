@@ -27,6 +27,8 @@ namespace BattleshipServer {
 		void leaveGame();
 		// Gets the game instance that this player is participating in, returns null if player is not in game
 		Game* getCurrentGame();
+		// Gets the in-game index of this player
+		int getIndex();
 		// Gets the opponent player from this player's current game
 		Player* getOpponent();
 		// Sends a message string to this player

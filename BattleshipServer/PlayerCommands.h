@@ -20,6 +20,9 @@ namespace BattleshipServer {
 		// Commands
 		void match(Player* target);
 		void leave(Player* target);
+		void ships(Player* target, std::string args);
+
+		void invalidCommand(Player* target);
 
 	public:
 		// Gets instance of this singleton
