@@ -31,7 +31,5 @@ namespace BattleshipServer {
 		Player* getOpponent();
 		// Sends a message string to this player
 		void sendMessage(std::string message);
-		// Removes this player from game
-		void exit();
 	};
 }

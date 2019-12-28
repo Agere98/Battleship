@@ -1,4 +1,5 @@
 #pragma once
+#include <pthread.h>
 
 namespace BattleshipServer {
 
@@ -11,6 +12,7 @@ namespace BattleshipServer {
 
 	private:
 		Player* players[2];
+		pthread_mutex_t playersMutex = PTHREAD_MUTEX_INITIALIZER;
 
 	public:
 		// Adds a player to this game and returns its index, or -1 if this game is full

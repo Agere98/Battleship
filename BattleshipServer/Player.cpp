@@ -46,10 +46,4 @@ namespace BattleshipServer {
 	void Player::sendMessage(std::string message) {
 		client.writeLine(message);
 	}
-
-	void Player::exit() {
-		if (currentGame != nullptr) {
-			leaveGame();
-		}
-	}
 }
