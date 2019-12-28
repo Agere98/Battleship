@@ -14,7 +14,8 @@ namespace BattleshipServer {
 		Player player(client, PlayerCommands::instance());
 		while (true) {
 			std::string command = client.readLine();
-			if (command.compare("") == 0) {
+			if (command.compare("exit") == 0 || command.compare("") == 0) {
+				player.parseCommand("leave");
 				player.exit();
 				break;
 			}

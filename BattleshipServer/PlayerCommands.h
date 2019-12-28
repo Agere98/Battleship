@@ -17,6 +17,10 @@ namespace BattleshipServer {
 		~PlayerCommands() = default;
 		PlayerCommands& operator=(const PlayerCommands&) = delete;
 
+		// Commands
+		void match(Player* target);
+		void leave(Player* target);
+
 	public:
 		// Gets instance of this singleton
 		static PlayerCommands& instance();
