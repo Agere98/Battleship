@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <Player.h>
+#include <ClassicBoard.h>
 #include <stdexcept>
 
 namespace BattleshipServer {
@@ -37,7 +38,23 @@ namespace BattleshipServer {
 		}
 	}
 
+	Board* Game::getBoard(int index) {
+		if (index == 0 || index == 1) {
+			return boards[index];
+		}
+		else {
+			throw std::out_of_range("Index must be 0 or 1");
+		}
+	}
+
 	void Game::start() {
+		for (int i = 0; i < 2; i++) {
+			boards[i] = new ClassicBoard();
+		}
 		while (true);
+		for (int i = 0; i < 2; i++) {
+			delete(boards[i]);
+			boards[i] = nullptr;
+		}
 	}
 }

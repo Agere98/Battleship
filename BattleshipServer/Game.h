@@ -4,6 +4,7 @@
 namespace BattleshipServer {
 
 	class Player;
+	class Board;
 
 	/*
 	A class representing a game with two players
@@ -12,6 +13,7 @@ namespace BattleshipServer {
 
 	private:
 		Player* players[2];
+		Board* boards[2];
 		pthread_mutex_t playersMutex = PTHREAD_MUTEX_INITIALIZER;
 
 	public:
@@ -21,6 +23,8 @@ namespace BattleshipServer {
 		void removePlayer(int index);
 		// Gets the player by index (0 or 1)
 		Player* getPlayer(int index);
+		// Gets the board by index (0 or 1)
+		Board* getBoard(int index);
 		// Starts a game
 		void start();
 	};

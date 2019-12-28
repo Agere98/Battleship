@@ -8,7 +8,8 @@ add_executable (BattleshipServer "BattleshipServer.cpp"
 	"Player.cpp"
 	"PlayerCommands.cpp"
 	"Game.cpp"
-	"Matchmaker.cpp")
+	"Matchmaker.cpp"
+	"ClassicBoard.cpp")
 
 target_link_libraries(BattleshipServer PUBLIC sockets)
 target_include_directories(BattleshipServer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
