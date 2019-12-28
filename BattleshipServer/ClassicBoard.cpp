@@ -9,7 +9,8 @@ namespace BattleshipServer {
 				getWidth(), -1
 				)
 			);
-		shipStates = std::vector<ShipState>(getShipSizes().size(), ShipState::UNDEFINED);
+		shipSizes = std::vector<int>{ 5, 4, 3, 3, 2 };
+		shipHitpoints = std::vector<int>(shipSizes.size(), -1);
 	}
 
 	ClassicBoard::ClassicBoard(int width, int height) {
@@ -19,7 +20,7 @@ namespace BattleshipServer {
 	}
 
 	std::vector<int> ClassicBoard::getShipSizes() {
-		return std::vector<int>{5, 4, 3, 3, 2};
+		return shipSizes;
 	}
 
 	int ClassicBoard::getWidth() {
@@ -34,7 +35,7 @@ namespace BattleshipServer {
 		if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
 			throw std::out_of_range("Position is out of range");
 		}
-		if (shipIndex < 0 || shipIndex >(int)shipStates.size()) {
+		if (shipIndex < 0 || shipIndex >(int)shipSizes.size()) {
 			throw std::out_of_range("Ship index is out of range");
 		}
 		if (getShipState(shipIndex) != ShipState::UNDEFINED) {
@@ -55,7 +56,7 @@ namespace BattleshipServer {
 			l--;
 			board[posX][posY] = shipIndex;
 		}
-		shipStates[shipIndex] = ShipState::UNDAMAGED;
+		shipHitpoints[shipIndex] = size;
 		return true;
 	}
 
@@ -67,10 +68,32 @@ namespace BattleshipServer {
 	}
 
 	Board::ShipState ClassicBoard::getShipState(int shipIndex) {
-		if (shipIndex < 0 || shipIndex >(int)shipStates.size()) {
+		if (shipIndex < 0 || shipIndex >(int)shipSizes.size()) {
 			throw std::out_of_range("Ship index is out of range");
 		}
-		return shipStates[shipIndex];
+		int s = shipSizes[shipIndex];
+		switch (shipHitpoints[shipIndex]) {
+		case -1:
+			return ShipState::UNDEFINED;
+		case 0:
+			return ShipState::SUNK;
+		default:
+			if (shipHitpoints[shipIndex] == shipSizes[shipIndex]) {
+				return ShipState::UNDAMAGED;
+			}
+			else {
+				return ShipState::DAMAGED;
+			}
+		}
+	}
+
+	void ClassicBoard::hit(int shipIndex) {
+		if (shipIndex < 0 || shipIndex >(int)shipSizes.size()) {
+			throw std::out_of_range("Ship index is out of range");
+		}
+		if (shipHitpoints[shipIndex] > 0) {
+			shipHitpoints[shipIndex]--;
+		}
 	}
 
 	void ClassicBoard::clear() {

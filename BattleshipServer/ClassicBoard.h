@@ -11,7 +11,8 @@ namespace BattleshipServer {
 
 	protected:
 		std::vector<std::vector<int>> board;
-		std::vector<ShipState> shipStates;
+		std::vector<int> shipSizes;
+		std::vector<int> shipHitpoints;
 
 		virtual void createBoard();
 
@@ -30,6 +31,8 @@ namespace BattleshipServer {
 		virtual int getShip(int x, int y) override;
 		// Gets the current state of a ship
 		virtual ShipState getShipState(int shipIndex) override;
+		// Damages a ship with a specified index
+		virtual void hit(int shipIndex) override;
 		// Sets all tiles on this board to empty
 		virtual void clear() override;
 	};
