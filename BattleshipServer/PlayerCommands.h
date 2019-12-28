@@ -21,6 +21,7 @@ namespace BattleshipServer {
 		void match(Player* target);
 		void leave(Player* target);
 		void ships(Player* target, std::string args);
+		void fire(Player* target, std::string args);
 
 		void invalidCommand(Player* target);
 

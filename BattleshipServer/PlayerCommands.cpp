@@ -39,7 +39,8 @@ namespace BattleshipServer {
 			int x, y;
 			char orientation;
 			argStream >> x >> y >> orientation;
-			if (argStream.fail() || !(orientation == 'v' || orientation == 'h')) {
+			if (argStream.fail() || x < 0 || x >= board->getWidth() || y < 0 || y >= board->getHeight()
+				|| !(orientation == 'v' || orientation == 'h')) {
 				invalidCommand(target);
 				board->clear();
 				return;
@@ -52,6 +53,28 @@ namespace BattleshipServer {
 				return;
 			}
 		}
+		target->getCurrentGame()->setReady(target->getIndex());
+	}
+
+	void PlayerCommands::fire(Player* target, std::string args) {
+		if (target->getCurrentGame() == nullptr || !target->getCurrentGame()->getTurn(target->getIndex())) {
+			invalidCommand(target);
+			return;
+		}
+		Board* board = target->getCurrentGame()->getBoard(target->getIndex());
+		if (board == nullptr) {
+			invalidCommand(target);
+			return;
+		}
+		std::stringstream argStream(args);
+		int x, y;
+		argStream >> x >> y;
+		if (argStream.fail() || x < 0 || x >= board->getWidth() || y < 0 || y >= board->getHeight()) {
+			invalidCommand(target);
+			return;
+		}
+		board->hit(x, y);
+		target->getCurrentGame()->endTurn();
 	}
 
 	void PlayerCommands::invalidCommand(Player* target) {
@@ -74,6 +97,10 @@ namespace BattleshipServer {
 		}
 		if (command.rfind("ships ", 0) == 0) {
 			ships(target, command.substr(6));
+			return;
+		}
+		if (command.rfind("fire ", 0) == 0) {
+			fire(target, command.substr(5));
 			return;
 		}
 

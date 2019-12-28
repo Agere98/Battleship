@@ -32,7 +32,7 @@ namespace BattleshipServer {
 		// Gets the current state of a ship
 		virtual ShipState getShipState(int shipIndex) override;
 		// Damages a ship with a specified index
-		virtual void hit(int shipIndex) override;
+		virtual int hit(int x, int y) override;
 		// Sets all tiles on this board to empty
 		virtual void clear() override;
 	};

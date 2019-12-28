@@ -12,9 +12,13 @@ namespace BattleshipServer {
 	class Game {
 
 	private:
+		int turn = -1;
 		Player* players[2];
 		Board* boards[2];
+		bool ready[2];
 		pthread_mutex_t playersMutex = PTHREAD_MUTEX_INITIALIZER;
+		pthread_mutex_t turnMutex = PTHREAD_MUTEX_INITIALIZER;
+		pthread_cond_t playerTurn = PTHREAD_COND_INITIALIZER;
 
 	public:
 		// Adds a player to this game and returns its index, or -1 if this game is full
@@ -25,6 +29,12 @@ namespace BattleshipServer {
 		Player* getPlayer(int index);
 		// Gets the board by index (0 or 1)
 		Board* getBoard(int index);
+		// Signals this game that a player finished his preparation phase
+		void setReady(int index);
+		// Returns true if a player with a specified index can take his turn, false otherwise
+		bool getTurn(int index);
+		// Signals this game that a player finished his turn
+		void endTurn();
 		// Starts a game
 		void start();
 	};

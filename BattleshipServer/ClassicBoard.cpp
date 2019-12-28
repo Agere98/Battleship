@@ -71,7 +71,6 @@ namespace BattleshipServer {
 		if (shipIndex < 0 || shipIndex >(int)shipSizes.size()) {
 			throw std::out_of_range("Ship index is out of range");
 		}
-		int s = shipSizes[shipIndex];
 		switch (shipHitpoints[shipIndex]) {
 		case -1:
 			return ShipState::UNDEFINED;
@@ -87,13 +86,16 @@ namespace BattleshipServer {
 		}
 	}
 
-	void ClassicBoard::hit(int shipIndex) {
-		if (shipIndex < 0 || shipIndex >(int)shipSizes.size()) {
-			throw std::out_of_range("Ship index is out of range");
+	int ClassicBoard::hit(int x, int y) {
+		if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+			throw std::out_of_range("Position is out of range");
 		}
+		int shipIndex = getShip(x, y);
 		if (shipHitpoints[shipIndex] > 0) {
 			shipHitpoints[shipIndex]--;
+			board[x][y] = -1;
 		}
+		return shipIndex;
 	}
 
 	void ClassicBoard::clear() {
