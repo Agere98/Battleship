@@ -9,6 +9,7 @@ namespace BattleshipServer {
 		for (int i = 0; i < 2; i++) {
 			if (players[i] == nullptr) {
 				players[i] = player;
+				pthread_mutex_unlock(&playersMutex);
 				return i;
 			}
 		}
@@ -29,9 +30,7 @@ namespace BattleshipServer {
 
 	Player* Game::getPlayer(int index) {
 		if (index == 0 || index == 1) {
-			pthread_mutex_lock(&playersMutex);
 			return players[index];
-			pthread_mutex_unlock(&playersMutex);
 		}
 		else {
 			throw std::out_of_range("Index must be 0 or 1");
