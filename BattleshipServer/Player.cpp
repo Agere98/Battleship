@@ -43,13 +43,6 @@ namespace BattleshipServer {
 		return gameIndex;
 	}
 
-	Player* Player::getOpponent() {
-		if (currentGame == nullptr) {
-			throw std::logic_error("Player is not in game");
-		}
-		return currentGame->getPlayer(1 - gameIndex);
-	}
-
 	void Player::sendMessage(std::string message) {
 		client.writeLine(message);
 	}

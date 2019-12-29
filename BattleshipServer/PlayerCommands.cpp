@@ -64,7 +64,7 @@ namespace BattleshipServer {
 			invalidCommand(target);
 			return;
 		}
-		Board* board = target->getCurrentGame()->getBoard(target->getOpponent()->getIndex());
+		Board* board = target->getCurrentGame()->getBoard(1 - target->getIndex());
 		if (board == nullptr) {
 			invalidCommand(target);
 			return;
