@@ -1,6 +1,7 @@
 #pragma once
 #include "Socket.h"
 #include <string>
+#include <pthread.h>
 
 namespace Sockets {
 
@@ -15,6 +16,13 @@ namespace Sockets {
 		int bufferSize;
 		int bufferPos;
 		int bufferEnd;
+		pthread_mutex_t readMutex = PTHREAD_MUTEX_INITIALIZER;
+		pthread_mutex_t writeMutex = PTHREAD_MUTEX_INITIALIZER;
+
+		// Internal read without mutex
+		int _read(char* buffer, int length = 1);
+		// Internal write without mutex
+		int _write(const char* buffer, int length = 1);
 
 	public:
 		// Creates a StringSocket and stores the socket object passed as argument for functionality extension
