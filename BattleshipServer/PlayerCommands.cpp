@@ -2,7 +2,6 @@
 #include <Board.h>
 #include <string>
 #include <sstream>
-#include <iostream>
 
 namespace BattleshipServer {
 
