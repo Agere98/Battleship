@@ -23,7 +23,13 @@ namespace BattleshipServer {
 		if (index == 0 || index == 1) {
 			pthread_mutex_lock(&playersMutex);
 			players[index] = nullptr;
+			if (players[0] == nullptr && players[1] == nullptr) {
+				pthread_mutex_lock(&turnMutex);
+				pthread_cond_signal(&playerTurn);
+				pthread_mutex_unlock(&turnMutex);
+			}
 			pthread_mutex_unlock(&playersMutex);
+			sendMessage(1 - index, "opponent left");
 		}
 		else {
 			throw std::out_of_range("Index must be 0 or 1");
@@ -53,7 +59,9 @@ namespace BattleshipServer {
 			pthread_mutex_lock(&playersMutex);
 			ready[index] = true;
 			if (ready[0] && ready[1]) {
+				pthread_mutex_lock(&turnMutex);
 				pthread_cond_signal(&playerTurn);
+				pthread_mutex_unlock(&turnMutex);
 			}
 			pthread_mutex_unlock(&playersMutex);
 		}
@@ -85,15 +93,20 @@ namespace BattleshipServer {
 	}
 
 	void Game::start() {
+		pthread_mutex_lock(&turnMutex);
 		for (int i = 0; i < 2; i++) {
 			boards[i] = new ClassicBoard();
 			getPlayer(i)->sendMessage("start");
 		}
-		pthread_mutex_lock(&turnMutex);
+		// Wait for players to end the preparation phase
 		pthread_cond_wait(&playerTurn, &turnMutex);
 		bool game = true;
 		while (game) {
 			for (int i = 0; i < 2; i++) {
+				if (players[0] == nullptr && players[1] == nullptr) {
+					pthread_mutex_unlock(&turnMutex);
+					return;
+				}
 				turn = i;
 				sendMessage(i, "turn");
 				pthread_cond_wait(&playerTurn, &turnMutex);
@@ -127,17 +140,25 @@ namespace BattleshipServer {
 			sendMessage(0, "draw");
 			sendMessage(1, "draw");
 		}
-		getPlayer(0)->leaveGame();
-		getPlayer(1)->leaveGame();
+		// Wait for players to leave the game
+		pthread_mutex_lock(&playersMutex);
+		pthread_mutex_lock(&turnMutex);
+		if (players[0] == nullptr && players[1] == nullptr) {
+			pthread_mutex_unlock(&playersMutex);
+		}
+		else {
+			pthread_mutex_unlock(&playersMutex);
+			pthread_cond_wait(&playerTurn, &turnMutex);
+		}
+		pthread_mutex_unlock(&turnMutex);
 	}
 
 	void Game::sendMessage(int index, std::string message) {
 		if (index == 0 || index == 1) {
 			pthread_mutex_lock(&playersMutex);
-			if (players[index] == nullptr) {
-				return;
+			if (players[index] != nullptr) {
+				players[index]->sendMessage(message);
 			}
-			players[index]->sendMessage(message);
 			pthread_mutex_unlock(&playersMutex);
 		}
 		else {
