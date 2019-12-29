@@ -26,7 +26,7 @@ namespace BattleshipServer {
 		target->sendMessage("left");
 	}
 
-	void PlayerCommands::ships(Player* target, std::string args) {
+	void PlayerCommands::ships(Player* target, std::string command) {
 		if (target->getCurrentGame() == nullptr) {
 			invalidCommand(target);
 			return;
@@ -36,7 +36,8 @@ namespace BattleshipServer {
 			invalidCommand(target);
 			return;
 		}
-		std::stringstream argStream(args);
+		std::stringstream argStream(command);
+		argStream.ignore(256, ' ');
 		for (int i = 0; i < (int)board->getShipSizes().size(); i++) {
 			int x, y;
 			char orientation;
@@ -57,9 +58,10 @@ namespace BattleshipServer {
 		}
 		target->getCurrentGame()->setReady(target->getIndex());
 		target->sendMessage("ready");
+		target->getCurrentGame()->sendMessage(1 - target->getIndex(), "opponent ready");
 	}
 
-	void PlayerCommands::fire(Player* target, std::string args) {
+	void PlayerCommands::fire(Player* target, std::string command) {
 		if (target->getCurrentGame() == nullptr || !target->getCurrentGame()->getTurn(target->getIndex())) {
 			invalidCommand(target);
 			return;
@@ -69,7 +71,8 @@ namespace BattleshipServer {
 			invalidCommand(target);
 			return;
 		}
-		std::stringstream argStream(args);
+		std::stringstream argStream(command);
+		argStream.ignore(256, ' ');
 		int x, y;
 		argStream >> x >> y;
 		if (argStream.fail() || x < 0 || x >= board->getWidth() || y < 0 || y >= board->getHeight()) {
@@ -89,6 +92,7 @@ namespace BattleshipServer {
 			target->sendMessage("miss");
 		}
 		target->getCurrentGame()->endTurn();
+		target->getCurrentGame()->sendMessage(1 - target->getIndex(), command);
 	}
 
 	void PlayerCommands::invalidCommand(Player* target) {
@@ -110,11 +114,11 @@ namespace BattleshipServer {
 			return;
 		}
 		if (command.rfind("ships ", 0) == 0) {
-			ships(target, command.substr(6));
+			ships(target, command);
 			return;
 		}
 		if (command.rfind("fire ", 0) == 0) {
-			fire(target, command.substr(5));
+			fire(target, command);
 			return;
 		}
 

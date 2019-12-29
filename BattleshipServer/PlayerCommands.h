@@ -20,8 +20,8 @@ namespace BattleshipServer {
 		// Commands
 		void match(Player* target);
 		void leave(Player* target);
-		void ships(Player* target, std::string args);
-		void fire(Player* target, std::string args);
+		void ships(Player* target, std::string command);
+		void fire(Player* target, std::string command);
 
 		void invalidCommand(Player* target);
 
