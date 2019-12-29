@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <pthread.h>
 
 namespace BattleshipServer {
@@ -37,5 +38,7 @@ namespace BattleshipServer {
 		void endTurn();
 		// Starts a game
 		void start();
+		// Sends a message to a player with a specified index
+		void sendMessage(int index, std::string message);
 	};
 }

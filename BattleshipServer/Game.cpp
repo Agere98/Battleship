@@ -95,7 +95,7 @@ namespace BattleshipServer {
 		while (game) {
 			for (int i = 0; i < 2; i++) {
 				turn = i;
-				getPlayer(i)->sendMessage("turn");
+				sendMessage(i, "turn");
 				pthread_cond_wait(&playerTurn, &turnMutex);
 				// Check for win
 				if (getBoard(1 - i)->getHitpoints() == 0) {
@@ -116,18 +116,32 @@ namespace BattleshipServer {
 			boards[i] = nullptr;
 		}
 		if (result[0] > 0 && result[1] == 0) {
-			getPlayer(0)->sendMessage("win");
-			getPlayer(1)->sendMessage("lose");
+			sendMessage(0, "win");
+			sendMessage(1, "lose");
 		}
 		if (result[0] == 0 && result[1] > 0) {
-			getPlayer(0)->sendMessage("lose");
-			getPlayer(1)->sendMessage("win");
+			sendMessage(0, "lose");
+			sendMessage(1, "win");
 		}
 		if (result[0] == 0 && result[1] == 0) {
-			getPlayer(0)->sendMessage("draw");
-			getPlayer(1)->sendMessage("draw");
+			sendMessage(0, "draw");
+			sendMessage(1, "draw");
 		}
 		getPlayer(0)->leaveGame();
 		getPlayer(1)->leaveGame();
+	}
+
+	void Game::sendMessage(int index, std::string message) {
+		if (index == 0 || index == 1) {
+			pthread_mutex_lock(&playersMutex);
+			if (players[index] == nullptr) {
+				return;
+			}
+			players[index]->sendMessage(message);
+			pthread_mutex_unlock(&playersMutex);
+		}
+		else {
+			throw std::out_of_range("Index must be 0 or 1");
+		}
 	}
 }
