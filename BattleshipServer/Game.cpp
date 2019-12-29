@@ -96,7 +96,7 @@ namespace BattleshipServer {
 		pthread_mutex_lock(&turnMutex);
 		for (int i = 0; i < 2; i++) {
 			boards[i] = new ClassicBoard();
-			getPlayer(i)->sendMessage("start");
+			sendMessage(i, "start");
 		}
 		// Wait for players to end the preparation phase
 		pthread_cond_wait(&playerTurn, &turnMutex);
