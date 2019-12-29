@@ -98,6 +98,14 @@ namespace BattleshipServer {
 		return shipIndex;
 	}
 
+	int ClassicBoard::getHitpoints() {
+		int sum = 0;
+		for (int i = 0; i < (int)shipHitpoints.size(); i++) {
+			sum += shipHitpoints[i];
+		}
+		return sum;
+	}
+
 	void ClassicBoard::clear() {
 		createBoard();
 	}
