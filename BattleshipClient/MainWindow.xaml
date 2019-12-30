@@ -46,7 +46,8 @@
                         Width="96"
                         IsCancel="True"
                         Visibility="Collapsed"
-                        IsEnabled="False"/>
+                        IsEnabled="False"
+                        Click="CancelButton_Click"/>
             </StackPanel>
             <StackPanel x:Name="MenuPanel"
                         DockPanel.Dock="Right"
@@ -63,7 +64,9 @@
                 <StackPanel x:Name="ConnectPanel"
                             Background="{StaticResource ButtonBrush}"
                             Margin="0,0,0,-53"
-                            Visibility="Collapsed">
+                            Visibility="Collapsed"
+                            MouseEnter="ConnectPanel_MouseEnter"
+                            MouseLeave="ConnectPanel_MouseLeave">
                     <Label Style="{StaticResource Label}"
                            Content="Server address"/>
                     <TextBox x:Name="ServerAddressBox"
@@ -72,7 +75,10 @@
                     <Separator Margin="8,0,8,49"/>
                 </StackPanel>
                 <Button x:Name="PlayButton"
-                        Content="CONNECT"/>
+                        Content="CONNECT"
+                        MouseEnter="PlayButton_MouseEnter"
+                        MouseLeave="PlayButton_MouseLeave"
+                        Click="PlayButton_Click"/>
                 <Button x:Name="ExitButton"
                         Content="EXIT"
                         Click="ExitButton_Click"/>
