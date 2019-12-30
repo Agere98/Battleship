@@ -5,8 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BattleshipClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Battleship"
+        MinHeight="450"
+        Height="450"
+        MinWidth="800"
+        Width="800">
+    <Window.Resources>
+        <Style x:Key="MenuButton" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="FontFamily" Value="Impact"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="Background" Value="#FF303030"/>
+            <Setter Property="Foreground" Value="#FFCCCCCC"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFFF8C00" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FFFFA020" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="Label" TargetType="{x:Type Label}">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="0,0,40,16"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="#FFEEEEEE"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-
+        <Grid.Background>
+            <ImageBrush ImageSource="resources/background.png"
+                        Stretch="UniformToFill"/>
+        </Grid.Background>
+        <DockPanel x:Name="Dock">
+            <Image x:Name="Logo"
+                   DockPanel.Dock="Top"
+                   Source="resources/logo.png"
+                   Stretch="Uniform"
+                   Width="400"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Margin="10,10,10,0"/>
+            <Label x:Name="StatusLabel"
+                   Style="{StaticResource Label}"
+                   DockPanel.Dock="Bottom"
+                   Content="Not connected"/>
+            <StackPanel x:Name="MenuPanel"
+                        DockPanel.Dock="Right"
+                        Width="256"
+                        Margin="40,0,40,40"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom">
+                <Button x:Name="PlayButton"
+                        Style="{StaticResource MenuButton}"
+                        Content="PLAY"/>
+                <Button x:Name="ExitButton"
+                        Style="{StaticResource MenuButton}"
+                        Content="EXIT"
+                        Click="ExitButton_Click"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>
