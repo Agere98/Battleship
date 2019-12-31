@@ -14,6 +14,7 @@ namespace BattleshipClient {
         public enum MenuState { Default, Connecting, Connected, Matchmaking }
 
         private MenuState state;
+        private bool showConnectPanel = false;
         private string hostname;
         private readonly GameClient client;
 
@@ -31,6 +32,7 @@ namespace BattleshipClient {
                         StatusLabel.Content = $"Connecting to {hostname}...";
                         break;
                     case MenuState.Connected:
+                        ConnectPanel.Visibility = Visibility.Collapsed;
                         PlayButton.Content = "PLAY";
                         StatusLabel.Content = $"Connected to {hostname}";
                         SetCancelButton("Disconnect");
@@ -57,12 +59,12 @@ namespace BattleshipClient {
             }
         }
 
-        private void SetConnectPanel(bool active) {
-            if (active) {
+        private void SetConnectPanel() {
+            if (showConnectPanel) {
                 ConnectPanel.Visibility = Visibility.Visible;
             }
             else {
-                if (!ServerAddressBox.IsFocused) {
+                if (!ServerAddressBox.IsKeyboardFocusWithin) {
                     ConnectPanel.Visibility = Visibility.Collapsed;
                 }
             }
@@ -118,7 +120,6 @@ namespace BattleshipClient {
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e) {
-            SetConnectPanel(false);
             if (State == MenuState.Default) {
                 Connect();
             }
@@ -129,20 +130,24 @@ namespace BattleshipClient {
 
         private void PlayButton_MouseEnter(object sender, MouseEventArgs e) {
             if (State == MenuState.Default) {
-                SetConnectPanel(true);
+                showConnectPanel = true;
+                SetConnectPanel();
             }
         }
 
         private void PlayButton_MouseLeave(object sender, MouseEventArgs e) {
-            SetConnectPanel(false);
+            showConnectPanel = false;
+            SetConnectPanel();
         }
 
         private void ConnectPanel_MouseEnter(object sender, MouseEventArgs e) {
-            SetConnectPanel(true);
+            showConnectPanel = true;
+            SetConnectPanel();
         }
 
         private void ConnectPanel_MouseLeave(object sender, MouseEventArgs e) {
-            SetConnectPanel(false);
+            showConnectPanel = false;
+            SetConnectPanel();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e) {
@@ -151,6 +156,18 @@ namespace BattleshipClient {
             }
             else if (State == MenuState.Matchmaking) {
                 Leave();
+            }
+        }
+
+        private void ServerAddressBox_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Return) {
+                Keyboard.ClearFocus();
+                SetConnectPanel();
+                Connect();
+            }
+            if (e.Key == Key.Escape) {
+                Keyboard.ClearFocus();
+                SetConnectPanel();
             }
         }
 
