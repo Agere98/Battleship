@@ -9,10 +9,28 @@
             <ImageBrush ImageSource="{StaticResource BackgroundImage}"
                         Stretch="UniformToFill"/>
         </Grid.Background>
-        <Button x:Name="BackButton"
-                Content="Back"
-                Style="{StaticResource SmallButton}"
-                Width="96"
-                Click="BackButton_Click"/>
+        <DockPanel x:Name="Dock">
+            <Label x:Name="GameStatusLabel"
+                   Style="{StaticResource Header}"
+                   Content="Place your fleet"
+                   DockPanel.Dock="Top"/>
+            <StackPanel Style="{StaticResource HorizontalPanel}"
+                        DockPanel.Dock="Bottom">
+                <Label Style="{StaticResource Label}"
+                       Content=""/>
+                <Button x:Name="LeaveButton"
+                        Style="{StaticResource SmallButton}"
+                        Content="Leave"
+                        Width="96"
+                        Click="LeaveButton_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        DockPanel.Dock="Bottom"
+                        HorizontalAlignment="Center">
+                <Rectangle Width="256" Height="256" Fill="#88888888"/>
+                <Separator Margin="32"/>
+                <Rectangle Width="256" Height="256" Fill="#88888888"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </PageFunction>

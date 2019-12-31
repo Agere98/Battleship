@@ -14,11 +14,14 @@ namespace BattleshipClient {
     /// </summary>
     public partial class GamePage : PageFunction<GameState> {
 
-        public GamePage() {
+        private readonly GameClient client;
+
+        public GamePage(GameClient client) {
             InitializeComponent();
+            this.client = client;
         }
 
-        private void BackButton_Click(object sender, RoutedEventArgs e) {
+        private void LeaveButton_Click(object sender, RoutedEventArgs e) {
             OnReturn(new ReturnEventArgs<GameState>(GameState.Completed));
         }
     }

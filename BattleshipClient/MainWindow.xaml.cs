@@ -18,7 +18,7 @@ namespace BattleshipClient {
 
         private void ParseServerMessage(string message) {
             if (message == "start") {
-                PageFrame.Navigate(new GamePage());
+                PageFrame.Navigate(new GamePage(client));
             }
         }
     }

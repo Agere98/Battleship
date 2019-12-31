@@ -15,6 +15,8 @@
 
     <SolidColorBrush x:Key="LabelBrush" Color="#FFEEEEEE"/>
 
+    <SolidColorBrush x:Key="HeaderBrush" Color="#FFDDDDDD"/>
+
     <SolidColorBrush x:Key="TexBoxBrush" Color="#FF444444"/>
 
     <Style x:Key="MenuButton" TargetType="{x:Type Button}">
@@ -71,9 +73,22 @@
         <Setter Property="Foreground" Value="{StaticResource LabelBrush}"/>
     </Style>
 
+    <Style x:Key="Header" TargetType="{x:Type Label}">
+        <Setter Property="Margin" Value="40,20,40,20"/>
+        <Setter Property="FontFamily" Value="Copperplate Gothic Bold"/>
+        <Setter Property="FontSize" Value="48"/>
+        <Setter Property="Foreground" Value="{StaticResource HeaderBrush}"/>
+    </Style>
+
     <Style x:Key="TextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{StaticResource TexBoxBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource LabelBrush}"/>
+    </Style>
+
+    <Style x:Key="HorizontalPanel" TargetType="{x:Type StackPanel}">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Margin" Value="40,0,40,8"/>
     </Style>
 
 </ResourceDictionary>
