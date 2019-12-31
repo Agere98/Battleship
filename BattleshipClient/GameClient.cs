@@ -8,7 +8,7 @@ namespace BattleshipClient {
     /// <summary>
     /// Client-side communication logic
     /// </summary>
-    class GameClient {
+    public class GameClient {
 
         const int serverPort = 2680;
 
