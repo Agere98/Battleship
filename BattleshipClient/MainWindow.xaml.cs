@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BattleshipClient {
 
@@ -20,14 +10,11 @@ namespace BattleshipClient {
     /// </summary>
     public partial class MainWindow : Window {
 
-        private async Task DelayAsync() {
-            await Task.Delay(3000);
-        }
-
         public enum MenuState { Default, Connecting, Connected, Matchmaking }
 
         private MenuState state;
         private string hostname;
+        private readonly GameClient client;
 
         public MenuState State {
             get => state;
@@ -41,7 +28,6 @@ namespace BattleshipClient {
                         break;
                     case MenuState.Connecting:
                         StatusLabel.Content = $"Connecting to {hostname}...";
-                        SetCancelButton("Cancel");
                         break;
                     case MenuState.Connected:
                         PlayButton.Content = "PLAY";
@@ -61,6 +47,7 @@ namespace BattleshipClient {
         public MainWindow() {
             InitializeComponent();
             State = MenuState.Default;
+            client = new GameClient();
         }
 
         private void SetConnectPanel(bool active) {
@@ -88,37 +75,41 @@ namespace BattleshipClient {
 
         private async void Connect() {
             hostname = ServerAddressBox.Text;
+            if (hostname.Trim() == "") {
+                StatusLabel.Content = "Invalid hostname";
+                return;
+            }
             State = MenuState.Connecting;
-            // Temporary dummy code
-            await DelayAsync();
-            if (hostname != "qqq") {
+            try {
+                await client.ConnectAsync(hostname);
+                State = MenuState.Connected;
+            }
+            catch (ArgumentException) {
+                State = MenuState.Default;
+                StatusLabel.Content = "Invalid hostname";
+            }
+            catch (SocketException) {
                 State = MenuState.Default;
                 StatusLabel.Content = $"Could not connect to {hostname}";
-            }
-            else {
-                State = MenuState.Connected;
             }
         }
 
         private async void Disconnect() {
             State = MenuState.Default;
-            // Temporary dummy code
-            await DelayAsync();
+            await client.DisconnectAsync();
         }
 
         private async void Play() {
             State = MenuState.Matchmaking;
-            // Temporary dummy code
-            await DelayAsync();
+            await client.WriteAsync("match");
         }
 
         private async void Leave() {
             State = MenuState.Connected;
-            // Temporary dummy code
-            await DelayAsync();
+            await client.WriteAsync("leave");
         }
 
-        private async void PlayButton_Click(object sender, RoutedEventArgs e) {
+        private void PlayButton_Click(object sender, RoutedEventArgs e) {
             SetConnectPanel(false);
             if (State == MenuState.Default) {
                 Connect();
