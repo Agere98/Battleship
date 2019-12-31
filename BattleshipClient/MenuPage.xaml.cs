@@ -51,6 +51,12 @@ namespace BattleshipClient {
             this.client = client;
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e) {
+            if (State != MenuState.Default) {
+                State = MenuState.Connected;
+            }
+        }
+
         private void SetConnectPanel(bool active) {
             if (active) {
                 ConnectPanel.Visibility = Visibility.Visible;
