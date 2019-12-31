@@ -7,9 +7,19 @@ namespace BattleshipClient {
     /// </summary>
     public partial class MainWindow : Window {
 
+        private readonly GameClient client;
+
         public MainWindow() {
             InitializeComponent();
-            PageFrame.Navigate(new MenuPage(new GameClient()));
+            client = new GameClient();
+            client.AddMessageListener(ParseServerMessage);
+            PageFrame.Navigate(new MenuPage(client));
+        }
+
+        private void ParseServerMessage(string message) {
+            if (message == "start") {
+                PageFrame.Navigate(new GamePage());
+            }
         }
     }
 }

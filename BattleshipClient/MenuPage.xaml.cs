@@ -84,6 +84,7 @@ namespace BattleshipClient {
             try {
                 await client.ConnectAsync(hostname);
                 State = MenuState.Connected;
+                await client.ListenAsync();
             }
             catch (ArgumentException) {
                 State = MenuState.Default;
