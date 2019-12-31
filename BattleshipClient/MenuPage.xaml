@@ -20,10 +20,8 @@
                    VerticalAlignment="Top"
                    Margin="10,10,10,0"/>
             <StackPanel x:Name="StatusPanel"
-                        DockPanel.Dock="Bottom"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Margin="40,0,40,8">
+                        Style="{StaticResource HorizontalPanel}"
+                        DockPanel.Dock="Bottom">
                 <Label x:Name="StatusLabel"
                        Style="{StaticResource Label}"
                        DockPanel.Dock="Bottom"
@@ -32,7 +30,6 @@
                         Style="{StaticResource SmallButton}"
                         Content="Cancel"
                         Width="96"
-                        IsCancel="True"
                         Visibility="Collapsed"
                         IsEnabled="False"
                         Click="CancelButton_Click"/>
