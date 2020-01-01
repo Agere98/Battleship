@@ -24,13 +24,25 @@
                         Width="96"
                         Click="LeaveButton_Click"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        DockPanel.Dock="Bottom"
-                        HorizontalAlignment="Center">
-                <Rectangle Width="256" Height="256" Fill="#88888888"/>
-                <Separator Margin="32"/>
-                <Rectangle Width="256" Height="256" Fill="#88888888"/>
-            </StackPanel>
+            <Grid DockPanel.Dock="Bottom"
+                  Margin="40,0,40,20"
+                  HorizontalAlignment="Stretch"
+                  MaxHeight="{Binding
+                RelativeSource={RelativeSource Self},
+                Path=ActualWidth,
+                Converter={StaticResource BoardGridSizeConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ContentControl x:Name="PlayerBoard"
+                                Grid.Column="1"/>
+                <ContentControl x:Name="OpponentBard"
+                                Grid.Column="3"/>
+            </Grid>
         </DockPanel>
     </Grid>
 </PageFunction>

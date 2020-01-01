@@ -19,6 +19,8 @@ namespace BattleshipClient {
         public GamePage(GameClient client) {
             InitializeComponent();
             this.client = client;
+            PlayerBoard.Content = new Board(10, 10).GetGrid();
+            OpponentBard.Content = new Board(10, 10).GetGrid();
         }
 
         private void LeaveButton_Click(object sender, RoutedEventArgs e) {

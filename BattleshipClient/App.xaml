@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="resources/ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <local:BoardGridSizeConverter x:Key="BoardGridSizeConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

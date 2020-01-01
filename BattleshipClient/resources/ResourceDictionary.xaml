@@ -1,9 +1,20 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary x:Class="BattleshipClient.Resources"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <BitmapImage x:Key="BackgroundImage" UriSource="background.png"/>
 
     <BitmapImage x:Key="LogoImage" UriSource="logo.png"/>
+
+    <BitmapImage x:Key="Tile_Hit" UriSource="tile_hit.png"/>
+
+    <BitmapImage x:Key="Tile_Miss" UriSource="tile_miss.png"/>
+
+    <BitmapImage x:Key="Tile_Empty" UriSource="tile_empty.png"/>
+
+    <BitmapImage x:Key="Tile_Highlight" UriSource="tile_highlight.png"/>
+
+    <SolidColorBrush x:Key="BoardBackground" Color="#80000000"/>
 
     <SolidColorBrush x:Key="ButtonBrush" Color="#FF303030"/>
 
