@@ -10,18 +10,20 @@
     <None Remove="resources\background.png" />
     <None Remove="resources\logo.png" />
     <None Remove="resources\tile_empty.png" />
-    <None Remove="resources\tile_highlight.png" />
     <None Remove="resources\tile_hit.png" />
     <None Remove="resources\tile_miss.png" />
+    <None Remove="resources\tile_ship.png" />
+    <None Remove="resources\tile_shipHit.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="resources\background.png" />
     <Resource Include="resources\logo.png" />
     <Resource Include="resources\tile_empty.png" />
-    <Resource Include="resources\tile_highlight.png" />
     <Resource Include="resources\tile_hit.png" />
     <Resource Include="resources\tile_miss.png" />
+    <Resource Include="resources\tile_ship.png" />
+    <Resource Include="resources\tile_shipHit.png" />
   </ItemGroup>
 
 </Project>
