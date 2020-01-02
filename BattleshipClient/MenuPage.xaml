@@ -19,21 +19,27 @@
                    HorizontalAlignment="Right"
                    VerticalAlignment="Top"
                    Margin="10,10,10,0"/>
-            <StackPanel x:Name="StatusPanel"
-                        Style="{StaticResource HorizontalPanel}"
-                        DockPanel.Dock="Bottom">
+            <Grid x:Name="StatusPanel"
+                  Style="{StaticResource HorizontalPanel}"
+                  HorizontalAlignment="Right"
+                  DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
                 <Label x:Name="StatusLabel"
                        Style="{StaticResource Label}"
-                       DockPanel.Dock="Bottom"
-                       Content="Not connected"/>
+                       Content="Not connected"
+                       Grid.Column="0"/>
                 <Button x:Name="CancelButton"
                         Style="{StaticResource SmallButton}"
                         Content="Cancel"
                         Width="96"
+                        Grid.Column="1"
                         Visibility="Collapsed"
                         IsEnabled="False"
                         Click="CancelButton_Click"/>
-            </StackPanel>
+            </Grid>
             <StackPanel x:Name="MenuPanel"
                         DockPanel.Dock="Right"
                         Width="256"

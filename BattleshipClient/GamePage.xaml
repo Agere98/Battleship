@@ -14,16 +14,22 @@
                    Style="{StaticResource Header}"
                    Content="Place your fleet"
                    DockPanel.Dock="Top"/>
-            <StackPanel Style="{StaticResource HorizontalPanel}"
-                        DockPanel.Dock="Bottom">
+            <Grid Style="{StaticResource HorizontalPanel}"
+                  DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
                 <Label Style="{StaticResource Label}"
-                       Content=""/>
+                       Content=""
+                       Grid.Column="0"/>
                 <Button x:Name="LeaveButton"
                         Style="{StaticResource SmallButton}"
                         Content="Leave"
                         Width="96"
+                        Grid.Column="1"
                         Click="LeaveButton_Click"/>
-            </StackPanel>
+            </Grid>
             <Grid DockPanel.Dock="Bottom"
                   Margin="40,0,40,20"
                   HorizontalAlignment="Stretch"
