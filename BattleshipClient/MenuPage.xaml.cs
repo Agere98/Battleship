@@ -102,6 +102,12 @@ namespace BattleshipClient {
                 State = MenuState.Default;
                 StatusLabel.Content = $"Could not connect to {hostname}";
             }
+            catch (ObjectDisposedException) {
+                State = MenuState.Default;
+            }
+            catch (System.IO.IOException) {
+                State = MenuState.Default;
+            }
         }
 
         private async void Disconnect() {
@@ -172,6 +178,9 @@ namespace BattleshipClient {
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e) {
+            if (state == MenuState.Connected) {
+                Disconnect();
+            }
             Window.GetWindow(this)?.Close();
         }
     }
