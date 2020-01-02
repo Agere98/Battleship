@@ -20,8 +20,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource Label}"
-                       Content=""
+                <Label x:Name="HintLabel"
+                       Style="{StaticResource Label}"
+                       Content="Press Right Mouse Button to rotate the ship"
                        Grid.Column="0"/>
                 <Button x:Name="LeaveButton"
                         Style="{StaticResource SmallButton}"

@@ -45,6 +45,7 @@ namespace BattleshipClient {
 
         private async void PlayerBoard_ShipsPlaced(object sender, PlayerBoard.ShipsPlacedEventArgs e) {
             GameStatusLabel.Content = "Waiting for opponent";
+            HintLabel.Content = "";
             var ships = e.Ships;
             StringBuilder command = new StringBuilder("ships ");
             foreach (var ship in ships) {
