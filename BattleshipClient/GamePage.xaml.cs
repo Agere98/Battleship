@@ -103,6 +103,8 @@ namespace BattleshipClient {
             }
             if (message == "opponent left") {
                 GameStatusLabel.Content = "Opponent left";
+                playerBoard.IsActive = false;
+                opponentBoard.IsActive = false;
                 state = GameState.Cancelled;
             }
             if (message.StartsWith("fire ")) {
