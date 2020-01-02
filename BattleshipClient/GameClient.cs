@@ -18,7 +18,17 @@ namespace BattleshipClient {
         private StreamReader reader;
         private StreamWriter writer;
 
+        /// <summary>
+        /// Occurs when ListenAsync is running and a message is received from remote host
+        /// </summary>
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+
+        /// <summary>
+        /// Gets a value that indicates whether a client is connected to a remote host
+        /// </summary>
+        public bool Connected {
+            get => client.Connected;
+        }
 
         /// <summary>
         /// Resolves a hostname and establishes a connection to a remote host
@@ -79,10 +89,16 @@ namespace BattleshipClient {
             while (client.Connected) {
                 string message = await ReadAsync();
                 MessageReceived(this, new MessageReceivedEventArgs { Message = message });
+                if (message == null) {
+                    break;
+                }
             }
         }
 
         public class MessageReceivedEventArgs : EventArgs {
+            /// <summary>
+            /// Message string or null if connection has been closed
+            /// </summary>
             public string Message { get; set; }
         }
     }

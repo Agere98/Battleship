@@ -56,7 +56,8 @@
               Visibility="Collapsed">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
-                <Label Style="{StaticResource Label}"
+                <Label x:Name="ErrorLabel"
+                       Style="{StaticResource Label}"
                        FontSize="24"
                        Content="Something went wrong"/>
                 <Button Style="{StaticResource SmallButton}"

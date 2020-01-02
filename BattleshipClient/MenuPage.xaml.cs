@@ -53,6 +53,10 @@ namespace BattleshipClient {
             this.client = client;
         }
 
+        private void Client_MessageReceived(object sender, GameClient.MessageReceivedEventArgs e) {
+            ParseServerMessage(e.Message);
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e) {
             if (State != MenuState.Default) {
                 State = MenuState.Connected;
@@ -92,6 +96,7 @@ namespace BattleshipClient {
             try {
                 await client.ConnectAsync(hostname);
                 State = MenuState.Connected;
+                client.MessageReceived += Client_MessageReceived;
                 await client.ListenAsync();
             }
             catch (ArgumentException) {
@@ -112,6 +117,7 @@ namespace BattleshipClient {
 
         private void Disconnect() {
             State = MenuState.Default;
+            client.MessageReceived -= Client_MessageReceived;
             client.Disconnect();
         }
 
@@ -123,6 +129,13 @@ namespace BattleshipClient {
         private async void Leave() {
             State = MenuState.Connected;
             await client.WriteAsync("leave");
+        }
+
+        private void ParseServerMessage(string message) {
+            if (message == null) {
+                Disconnect();
+                StatusLabel.Content = "Connection lost";
+            }
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e) {

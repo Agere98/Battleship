@@ -54,11 +54,15 @@ namespace BattleshipClient {
                 var orientation = (ship.Orientation == Ship.ShipOrientation.Horizontal) ? "h" : "v";
                 command.Append(orientation).Append(" ");
             }
-            await client.WriteAsync(command.ToString());
+            if (client.Connected) {
+                await client.WriteAsync(command.ToString());
+            }
         }
 
         private void LeaveButton_Click(object sender, RoutedEventArgs e) {
-            client.WriteAsync("leave");
+            if (client.Connected) {
+                client.WriteAsync("leave");
+            }
             Close();
             if (state == GameState.InProgress) {
                 state = GameState.Cancelled;
@@ -67,6 +71,11 @@ namespace BattleshipClient {
         }
 
         private void ParseServerMessage(string message) {
+            if (message == null) {
+                ErrorPanel.Visibility = Visibility.Visible;
+                ErrorLabel.Content = "Connection lost";
+                return;
+            }
             if (message == "turn") {
                 GameStatusLabel.Content = "Your turn";
                 opponentBoard.IsActive = true;
