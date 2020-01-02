@@ -34,8 +34,10 @@ namespace BattleshipClient {
             await client.ConnectAsync(endPoint);
             networkStream = new NetworkStream(client);
             reader = new StreamReader(networkStream);
-            writer = new StreamWriter(networkStream);
-            writer.AutoFlush = true;
+            writer = new StreamWriter(networkStream) {
+                AutoFlush = true,
+                NewLine = "\n"
+            };
         }
 
         /// <summary>
