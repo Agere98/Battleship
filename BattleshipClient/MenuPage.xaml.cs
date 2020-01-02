@@ -110,9 +110,9 @@ namespace BattleshipClient {
             }
         }
 
-        private async void Disconnect() {
+        private void Disconnect() {
             State = MenuState.Default;
-            await client.DisconnectAsync();
+            client.Disconnect();
         }
 
         private async void Play() {

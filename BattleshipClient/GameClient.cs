@@ -43,15 +43,14 @@ namespace BattleshipClient {
         /// <summary>
         /// Closes the client connection
         /// </summary>
-        /// <returns></returns>
-        public Task DisconnectAsync() {
-            return Task.Run(() => {
+        public void Disconnect() {
+            if (client.Connected) {
                 reader.Close();
                 writer.Close();
                 networkStream.Close();
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
-            });
+            }
         }
 
         /// <summary>
