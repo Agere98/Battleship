@@ -66,24 +66,40 @@ namespace Sockets {
 	}
 
 	int SocketBSD::read(char* buffer, int length) {
+		if (socket == -1) {
+			return 0;
+		}
 		int size = ::read(socket, buffer, length);
 		if (size == -1) {
 			throw std::runtime_error(strerror(errno));
+		}
+		if (size == 0) {
+			socket = -1;
 		}
 		return size;
 	}
 
 	int SocketBSD::write(const char* buffer, int length) {
+		if (socket == -1) {
+			return 0;
+		}
 		int size = ::write(socket, buffer, length);
 		if (size == -1) {
 			throw std::runtime_error(strerror(errno));
+		}
+		if (size == 0) {
+			socket = -1;
 		}
 		return size;
 	}
 
 	void SocketBSD::close() {
+		if (socket == -1) {
+			return;
+		}
 		if (::close(socket) == -1) {
 			throw std::runtime_error(strerror(errno));
 		}
+		socket = -1;
 	}
 }
