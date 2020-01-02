@@ -44,5 +44,19 @@
                                 Grid.Column="3"/>
             </Grid>
         </DockPanel>
+        <Grid x:Name="ErrorPanel"
+              Background="#C0000000"
+              Visibility="Collapsed">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Label Style="{StaticResource Label}"
+                       FontSize="24"
+                       Content="Something went wrong"/>
+                <Button Style="{StaticResource SmallButton}"
+                        Content="OK"
+                        Width="96"
+                        Click="LeaveButton_Click"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </PageFunction>

@@ -102,6 +102,9 @@ namespace BattleshipClient {
                 if (!int.TryParse(command[2], out int row)) return;
                 EnemyFire(row, column);
             }
+            if (message == "Invalid command") {
+                ErrorPanel.Visibility = Visibility.Visible;
+            }
         }
 
         private void EnemyFire(int row, int column) {
