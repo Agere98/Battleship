@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <string>
 #include <stdexcept>
+#include <iostream>
 
 namespace BattleshipServer {
 
@@ -12,13 +13,19 @@ namespace BattleshipServer {
 		pthread_detach(pthread_self());
 		Sockets::StringSocket client((Sockets::Socket*)clientSocket);
 		Player player(client, PlayerCommands::instance());
-		while (true) {
-			std::string command = client.readLine();
-			if (command.compare("exit") == 0 || command.compare("") == 0) {
-				player.parseCommand("leave");
-				break;
+		try {
+			while (true) {
+				std::string command = client.readLine();
+				if (command.compare("exit") == 0 || command.compare("") == 0) {
+					player.parseCommand("leave");
+					break;
+				}
+				player.parseCommand(command);
 			}
-			player.parseCommand(command);
+		}
+		catch (std::runtime_error & e) {
+			// Prevent server crash when there is a socket error on single client
+			std::cout << "Client socked closed unexpectedly" << std::endl;
 		}
 		client.close();
 		pthread_exit(NULL);
