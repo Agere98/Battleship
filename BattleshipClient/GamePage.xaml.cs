@@ -39,6 +39,7 @@ namespace BattleshipClient {
         private async void OpponentBoard_TileSelected(object sender, OpponentBoard.TileSelectedEventArgs e) {
             selectedTile = (e.Row, e.Column);
             GameStatusLabel.Content = "Waiting for opponent";
+            HintLabel.Content = "";
             opponentBoard.IsActive = false;
             await client.WriteAsync($"fire {e.Column} {e.Row}");
         }
@@ -88,6 +89,7 @@ namespace BattleshipClient {
             }
             if (message == "sunk") {
                 opponentBoard.SetTile(selectedTile.Row, selectedTile.Column, Board.Tile.Hit);
+                HintLabel.Content = "Enemy ship sunk";
             }
             if (message == "win") {
                 GameStatusLabel.Content = "Victory!";
