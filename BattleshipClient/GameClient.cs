@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Linq;
 
 namespace BattleshipClient {
 
@@ -39,7 +40,9 @@ namespace BattleshipClient {
             var host = await Task.Run(() => {
                 return Dns.GetHostEntry(hostname);
             });
-            var endPoint = new IPEndPoint(host.AddressList[0], serverPort);
+            var endPoint = new IPEndPoint(
+                host.AddressList.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork),
+                serverPort);
             client = new Socket(SocketType.Stream, ProtocolType.Tcp);
             await client.ConnectAsync(endPoint);
             networkStream = new NetworkStream(client);
