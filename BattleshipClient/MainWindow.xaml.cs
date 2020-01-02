@@ -28,6 +28,7 @@ namespace BattleshipClient {
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             client.MessageReceived -= Client_MessageReceived;
+            client.Disconnect();
         }
     }
 }
