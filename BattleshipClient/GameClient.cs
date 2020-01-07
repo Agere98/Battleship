@@ -37,11 +37,11 @@ namespace BattleshipClient {
         /// <param name="hostname">The host name or IP address to connect to</param>
         /// <returns></returns>
         public async Task ConnectAsync(string hostname) {
-            var host = await Task.Run(() => {
-                return Dns.GetHostEntry(hostname);
+            var addr = await Task.Run(() => {
+                return Dns.GetHostAddresses(hostname);
             });
             var endPoint = new IPEndPoint(
-                host.AddressList.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork),
+                addr.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork),
                 serverPort);
             client = new Socket(SocketType.Stream, ProtocolType.Tcp);
             await client.ConnectAsync(endPoint);
